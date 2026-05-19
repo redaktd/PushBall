@@ -40,7 +40,6 @@ public class StateController : MonoBehaviour
                 if (canWin)
                 {
                     _winCoroutine = StartCoroutine(WinTimer(winTimer));
-                    Debug.Log("Started win timer");
                 }
             }
 
@@ -63,7 +62,6 @@ public class StateController : MonoBehaviour
             {
                 if (canWin && _winCoroutine != null)
                 {
-                    Debug.Log("Stopped win timer");
                     StopCoroutine(_winCoroutine);
                     _winCoroutine = null;
                 }
@@ -76,9 +74,6 @@ public class StateController : MonoBehaviour
         if(CurrentState == state) return;
 
         StartCoroutine(StateCooldown(state));
-        //ExitState(CurrentState);
-        //CurrentState = state;
-        //EnterState(state);
     }
 
     private void EnterState(ObjectState state)
@@ -87,11 +82,9 @@ public class StateController : MonoBehaviour
         {
             case ObjectState.Free:
                 rb.constraints = RigidbodyConstraints2D.None;
-                //rb.simulated = true;
                 break;
             case ObjectState.Stuck:
                 rb.constraints = RigidbodyConstraints2D.FreezeAll;
-               //rb.simulated = false;
                 break;
             case ObjectState.Disabled:
                 rb.simulated = false;

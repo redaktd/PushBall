@@ -6,8 +6,6 @@ public class StickySurface : MonoBehaviour
     {
         if (collision != null)
         {
-            Debug.Log("collided: " + collision.gameObject.name);
-
             if (collision.gameObject.layer != 6 || collision.gameObject.layer != 7)
             {
                 StateController state = collision.gameObject.GetComponent<StateController>();

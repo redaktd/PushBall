@@ -44,7 +44,7 @@ public class MainMenu : MonoBehaviour
     {
         if (loggedIn)
         {
-            Debug.Log("show leaderboard");
+            Application.OpenURL("https://game-leaderboard-platform.vercel.app/");
         }
         else
         {

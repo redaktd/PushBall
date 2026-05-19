@@ -105,31 +105,12 @@ public class ApiClient : MonoBehaviour
     // HTTP Helpers
     // ---------------------------------------------------------------
 
-    //private IEnumerator Post(string path, string json, bool requiresAuth,
-    //    System.Action<bool, string> onComplete)
-    //{
-    //    var url = baseUrl + path;
-    //    var request = new UnityWebRequest(url, "POST");
-
-    //    byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
-    //    request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-    //    request.downloadHandler = new DownloadHandlerBuffer();
-    //    request.SetRequestHeader("Content-Type", "application/json");
-
-    //    if (requiresAuth && IsLoggedIn)
-    //        request.SetRequestHeader("Authorization", "Bearer " + _token);
-
-    //    yield return request.SendWebRequest();
-
-    //    bool success = request.result == UnityWebRequest.Result.Success;
-    //    onComplete(success, request.downloadHandler.text);
-    //}
-
     private IEnumerator Post(string path, string json, bool requiresAuth,
     System.Action<bool, string> onComplete)
     {
         var url = baseUrl + path;
-        var request = new UnityWebRequest(url, "POST");
+
+        using var request = new UnityWebRequest(url, "POST");
 
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -139,18 +120,12 @@ public class ApiClient : MonoBehaviour
         if (requiresAuth && IsLoggedIn)
             request.SetRequestHeader("Authorization", "Bearer " + _token);
 
-
-        // Add these debug lines
-        Debug.Log($"URL: {url}");
-        Debug.Log($"Response Code: {request.responseCode}");
-        Debug.Log($"Response: {request.downloadHandler.text}");
-        Debug.Log($"Error: {request.error}");
-        Debug.Log($"Sending: {json}");
-
         yield return request.SendWebRequest();
 
         bool success = request.result == UnityWebRequest.Result.Success;
-        onComplete(success, request.downloadHandler.text);
+        string response = request.downloadHandler.text;
+
+        onComplete(success, response);
     }
 
     // ---------------------------------------------------------------

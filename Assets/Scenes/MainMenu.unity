@@ -7222,7 +7222,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6176908733815752032, guid: 2772f1985933d7d44ada12ee512b6555, type: 3}
       propertyPath: baseUrl
-      value: http://localhost:5277/api
+      value: https://gameleaderboardplatform-production.up.railway.app/api
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2772f1985933d7d44ada12ee512b6555, type: 3}

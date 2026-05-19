@@ -41,9 +41,6 @@ public class MousePush : MonoBehaviour
         dragLine.enabled = true;
         trajectoryLine.enabled = true;
         dragging = true;
-
-        //for mouse drag
-        //transform.position = new Vector3(mousePos.x, mousePos.y, transform.position.z);
     }
 
     private void Update()
@@ -55,15 +52,6 @@ public class MousePush : MonoBehaviour
 
         DrawDragLine(mousePos);
         DrawTrajectory(dragVector);
-    }
-
-    private void OnMouseDrag()
-    {
-        if (dragging)
-        {
-            //for mouse drag
-            //targetPos = new Vector3(mousePos.x, mousePos.y, transform.position.z) + offset;
-        }
     }
 
     private void OnMouseUp()
@@ -119,26 +107,6 @@ public class MousePush : MonoBehaviour
             float t = i * timeStep;
 
             Vector2 nextPos = position + velocity * t + 0.5f * gravity * t * t;
-
-            //// Check collision between last point and next point
-            //if (i > 0)
-            //{
-            //    Vector2 prevPos = trajectoryLine.GetPosition(i - 1);
-            //    RaycastHit2D hit = Physics2D.Linecast(prevPos, nextPos, collisionMask);
-
-            //    if (hit.collider != null)
-            //    {
-            //        trajectoryLine.SetPosition(i, hit.point);
-
-            //        // Bounce calculation (reflect velocity)
-            //        Vector2 incomingVel = velocity + gravity * t;
-            //        Vector2 reflectedVel = Vector2.Reflect(incomingVel, hit.normal) * bounceDamping;
-
-            //        // Continue trajectory after bounce
-            //        SimulateBounce(hit.point, reflectedVel, gravity, i);
-            //        return;
-            //    }
-            //}
 
             trajectoryLine.SetPosition(i, nextPos);
         }
