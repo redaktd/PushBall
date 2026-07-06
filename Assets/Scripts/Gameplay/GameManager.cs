@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class GameManager : MonoBehaviour
     [Header("Level Settings")]
     [SerializeField] private int levelId = 1;
     [SerializeField] private float winTimerDelay = 2f;
+    [SerializeField] private float overviewCamOrthoSize = 24f;
 
     [Header("Object References")]
+    [SerializeField] private CinemachineVirtualCamera vCam;
+    [SerializeField] private GameObject overviewPos;
     [SerializeField] private GameObject playerBall;
     [SerializeField] private GameObject pushBox;
     [SerializeField] private EndScreen endScreen;
@@ -30,6 +34,8 @@ public class GameManager : MonoBehaviour
 
     private bool _levelComplete;
     private bool _timerRunning;
+    private LensSettings _overviewCamSettings;
+    private LensSettings _ballCamSettings;
 
     private void Awake()
     {
@@ -52,6 +58,9 @@ public class GameManager : MonoBehaviour
 
         // Start the timer
         _timerRunning = true;
+
+        _overviewCamSettings = new LensSettings(40f, overviewCamOrthoSize, 0.3f, 1000f, 0f);
+        _ballCamSettings = new LensSettings(40f, 10f, 0.3f, 1000f, 0f);
     }
 
     private void Update()
@@ -61,6 +70,12 @@ public class GameManager : MonoBehaviour
             TimeSeconds += Time.deltaTime;
             timeText.text = FormatTime(TimeSeconds);
         }
+
+        if (Input.GetKeyDown(KeyCode.X))
+            SwitchToOverviewCamera();
+        else if (Input.GetKeyUp(KeyCode.X))
+            SwitchToBallCam();
+
     }
 
     // ---------------------------------------------------------------
@@ -122,7 +137,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
-    // Score formula — rewards speed and clean runs
+    // Score formula ï¿½ rewards speed and clean runs
     // ---------------------------------------------------------------
     private int CalculateScore()
     {
@@ -134,7 +149,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
-    // Format Time — convert time from seconds to an easily readable format
+    // Format Time ï¿½ convert time from seconds to an easily readable format
     // ---------------------------------------------------------------
     public string FormatTime(float seconds)
     {
@@ -142,6 +157,20 @@ public class GameManager : MonoBehaviour
         int s = (int)(seconds % 60);
         int ms = (int)((seconds * 1000) % 1000);
         return $"{m:00}:{s:00}:{ms:000}";
+    }
+
+    public void SwitchToOverviewCamera()
+    {
+        vCam.Follow = overviewPos.transform;
+        vCam.LookAt = null;
+        vCam.m_Lens = _overviewCamSettings;
+    }
+
+    public void SwitchToBallCam()
+    {
+        vCam.Follow = playerBall.transform;
+        vCam.LookAt = playerBall.transform;
+        vCam.m_Lens = _ballCamSettings;
     }
 
     public int GetLevelId()

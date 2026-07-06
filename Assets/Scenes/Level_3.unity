@@ -993,6 +993,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4533253690011451238, guid: ddeb6835d1417354184220210ee51981, type: 3}
   m_PrefabInstance: {fileID: 403326779}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &433799007
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 433799008}
+  m_Layer: 0
+  m_Name: OverviewCamPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &433799008
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433799007}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &448575391 stripped
 LineRenderer:
   m_CorrespondingSourceObject: {fileID: 6879320159048277557, guid: 3966a641f08caac4c99cb8f36d0d1326, type: 3}
@@ -4134,6 +4165,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelId: 3
   winTimerDelay: 0
+  overviewCamOrthoSize: 24
+  vCam: {fileID: 1799475869}
+  overviewPos: {fileID: 433799007}
   playerBall: {fileID: 659084860}
   pushBox: {fileID: 707206220}
   endScreen: {fileID: 1331779058}
@@ -4530,6 +4564,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 78.330894
       objectReference: {fileID: 0}
+    - target: {fileID: 4615106051612593106, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4816783120209148418, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5056247789681482577, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5321349023561804890, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
       propertyPath: m_Name
       value: OutOfBounds
@@ -4597,6 +4643,10 @@ PrefabInstance:
     - target: {fileID: 5369593542330757618, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
       propertyPath: m_LocalPosition.y
       value: 21.465399
+      objectReference: {fileID: 0}
+    - target: {fileID: 5649126571017658157, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8bbc4ebf8180c0499716313a08a5982, type: 3}
