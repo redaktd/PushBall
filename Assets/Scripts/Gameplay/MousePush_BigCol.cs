@@ -10,9 +10,7 @@ public class MousePush_BigCol : MonoBehaviour
     public LineRenderer dragLine;
     public LineRenderer trajectoryLine;
 
-    public int trajectorySteps = 20;
     public float trajectoryDuration = 2f;
-    public float bounceDamping = 0.6f;
 
     private Rigidbody2D rb;
     private Camera cam;
