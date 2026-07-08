@@ -85,24 +85,45 @@ public class MousePush_BigCol : MonoBehaviour
     {
         dragLine.startWidth = 0.08f;
         dragLine.endWidth = 0.02f;
-        dragLine.SetPosition(0, transform.position);
-        dragLine.SetPosition(1, mousePosition);
+
+        // Clamp the visible aim line to maxForce so it reflects the real power cap.
+        Vector2 ballPos = transform.position;
+        Vector2 pull = Vector2.ClampMagnitude(mousePosition - ballPos, maxForce);
+
+        dragLine.SetPosition(0, ballPos);
+        dragLine.SetPosition(1, ballPos + pull);
     }
 
     void DrawTrajectory(Vector2 dragVector)
     {
-        Vector2 velocity = rb.velocity + dragVector * forceMultiplier;
+        // Match the launch exactly: clamp to maxForce, then convert the impulse
+        // to a velocity change by dividing by mass.
+        Vector2 clampedDrag = Vector2.ClampMagnitude(dragVector, maxForce);
+        Vector2 impulse = clampedDrag * forceMultiplier;
+        Vector2 velocity = rb.velocity + impulse / rb.mass;
         Vector2 gravity = Physics2D.gravity * rb.gravityScale;
         Vector2 position = rb.position;
 
-        float timeStep = trajectoryDuration / trajectorySteps;
-        trajectoryLine.positionCount = trajectorySteps;
+        // Preview length scales with pull strength: a small pull shows a short
+        // line, growing to the full trajectoryDuration at maxForce.
+        float forceRatio = maxForce > 0f ? clampedDrag.magnitude / maxForce : 0f;
 
-        for (int i = 0; i < trajectorySteps; i++)
+        // Step at the physics tick rate so the preview matches the real ball's
+        // gravity AND linear drag. Unity applies linear drag as v *= 1/(1 + drag*dt).
+        float dt = Time.fixedDeltaTime;
+        int maxSteps = Mathf.Max(2, Mathf.CeilToInt(trajectoryDuration / dt));
+        int steps = Mathf.Max(2, Mathf.CeilToInt(maxSteps * forceRatio));
+        float dragFactor = 1f / (1f + rb.drag * dt);
+
+        trajectoryLine.positionCount = steps;
+        trajectoryLine.SetPosition(0, position);
+
+        for (int i = 1; i < steps; i++)
         {
-            float t = i * timeStep;
-            Vector2 nextPos = position + velocity * t + 0.5f * gravity * t * t;
-            trajectoryLine.SetPosition(i, nextPos);
+            velocity += gravity * dt;   // gravity
+            velocity *= dragFactor;     // linear drag (no-op when Linear Drag = 0)
+            position += velocity * dt;  // integrate
+            trajectoryLine.SetPosition(i, position);
         }
     }
 
